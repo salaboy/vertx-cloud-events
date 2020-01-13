@@ -30,7 +30,7 @@ public class MainVerticle extends AbstractVerticle {
     }
 
     public void sendCloudEvent(CloudEvent cloudEvent){
-        final HttpClientRequest request = vertx.createHttpClient().post(8080, "localhost", "/");
+        final HttpClientRequest request = vertx.createHttpClient().post(80, "http://cloudevents-go.default.example.com", "/");
 
 // add a client response handler
         request.handler(resp -> {
