@@ -23,8 +23,8 @@ public class MainVerticle extends AbstractVerticle {
                                 if (receivedEvent != null) {
                                     // I got a CloudEvent object:
                                     System.out.println("The event type: " + receivedEvent.getAttributes().getType());
+                                    System.out.println("Incoming Headers >>>>>>>>>>>>" + req.headers());
                                     sendCloudEvent(receivedEvent);
-                                    System.out.println(">>>>>>>>>>>>" + req.headers());
                                 }
                             });
                     req.response().end();
@@ -47,11 +47,9 @@ public class MainVerticle extends AbstractVerticle {
 // add a client response handler
         request.handler(resp -> {
             // react on the server response
-            System.out.println("Event posted: " +myCloudEvent);
+            System.out.println("Event posted: " +resp.statusCode());
         });
-        System.out.println("New Pre Host Set >>>>>>>>>>>>" + request.headers());
         request.headers().set("Host", "cloudevents-go.default.34.65.101.52.xip.io");
-        System.out.println("New Post Host Set >>>>>>>>>>>>" + request.headers());
 // write the CloudEvent to the given HTTP Post request object
         VertxCloudEvents.create().writeToHttpClientRequest(myCloudEvent, request);
         System.out.println("New >>>>>>>>>>>>" + request.headers());
