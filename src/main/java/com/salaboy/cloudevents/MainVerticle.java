@@ -49,9 +49,11 @@ public class MainVerticle extends AbstractVerticle {
             // react on the server response
             System.out.println("Event posted: " +myCloudEvent);
         });
+        System.out.println("New Pre Host Set >>>>>>>>>>>>" + request.headers());
         request.setHost("cloudevents-go.default.svc.cluster.local");
 // write the CloudEvent to the given HTTP Post request object
         VertxCloudEvents.create().writeToHttpClientRequest(myCloudEvent, request);
+        System.out.println("New >>>>>>>>>>>>" + request.headers());
         request.end();
     }
 }
