@@ -35,7 +35,7 @@ public class MainVerticle extends AbstractVerticle {
     }
 
     public void sendCloudEvent(CloudEvent cloudEvent) throws URISyntaxException {
-        final HttpClientRequest request = vertx.createHttpClient().post(80, "http://cloudevents-go.default.svc.cluster.local", "/");
+        final HttpClientRequest request = vertx.createHttpClient().post(80, "cloudevents-go.default.svc.cluster.local", "/");
         final CloudEvent<AttributesImpl, String>  myCloudEvent = CloudEventBuilder.<String>builder()
 
                 .withId("1234-abcd")
