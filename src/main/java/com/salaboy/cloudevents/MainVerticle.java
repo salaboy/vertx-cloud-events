@@ -47,7 +47,7 @@ public class MainVerticle extends AbstractVerticle {
 // add a client response handler
         request.handler(resp -> {
             // react on the server response
-            System.out.println("Event posted: " +resp.statusCode());
+            System.out.println("Event posted: " +resp.statusCode() + "-> " + resp.statusMessage());
         });
         request.headers().set("Host", "cloudevents-go.default.34.65.101.52.xip.io");
 // write the CloudEvent to the given HTTP Post request object
