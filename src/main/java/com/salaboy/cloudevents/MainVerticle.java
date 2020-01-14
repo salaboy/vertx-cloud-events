@@ -50,7 +50,8 @@ public class MainVerticle extends AbstractVerticle {
             System.out.println("Event posted: " +myCloudEvent);
         });
         System.out.println("New Pre Host Set >>>>>>>>>>>>" + request.headers());
-        request.setHost("cloudevents-go.default.svc.cluster.local");
+        request.headers().set("Host", "cloudevents-go.default.svc.cluster.local");
+        System.out.println("New Post Host Set >>>>>>>>>>>>" + request.headers());
 // write the CloudEvent to the given HTTP Post request object
         VertxCloudEvents.create().writeToHttpClientRequest(myCloudEvent, request);
         System.out.println("New >>>>>>>>>>>>" + request.headers());
