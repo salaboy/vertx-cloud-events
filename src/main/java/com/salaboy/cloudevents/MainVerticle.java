@@ -35,7 +35,7 @@ public class MainVerticle extends AbstractVerticle {
     }
 
     public void sendCloudEvent(CloudEvent cloudEvent) throws URISyntaxException {
-        final HttpClientRequest request = vertx.createHttpClient().post(80, "cloudevents-go.default.svc.cluster.local", "/");
+        final HttpClientRequest request = vertx.createHttpClient().post(80, "http://cloudevents-go.default.svc.cluster.local", "/");
         final CloudEvent<AttributesImpl, String>  myCloudEvent = CloudEventBuilder.<String>builder()
 
                 .withId("1234-abcd")
@@ -50,7 +50,7 @@ public class MainVerticle extends AbstractVerticle {
             System.out.println("Event posted: " +resp.statusCode() + "-> " + resp.statusMessage());
 
         });
-        request.headers().set("Host", "cloudevents-go.default.svc.cluster.local");
+//        request.headers().set("Host", "cloudevents-go.default.34.65.101.52.xip.io");
 // write the CloudEvent to the given HTTP Post request object
         VertxCloudEvents.create().writeToHttpClientRequest(myCloudEvent, request);
         System.out.println("New >>>>>>>>>>>>" + request.headers());
