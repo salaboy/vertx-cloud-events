@@ -2,9 +2,13 @@ package com.salaboy.cloudevents;
 
 import io.cloudevents.CloudEvent;
 import io.cloudevents.http.reactivex.vertx.VertxCloudEvents;
+import io.cloudevents.v02.CloudEventBuilder;
 import io.vertx.core.Future;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.core.http.HttpClientRequest;
+import io.cloudevents.v02.AttributesImpl;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 public class MainVerticle extends AbstractVerticle {
@@ -20,6 +24,7 @@ public class MainVerticle extends AbstractVerticle {
                                     // I got a CloudEvent object:
                                     System.out.println("The event type: " + receivedEvent.getAttributes().getType());
                                     sendCloudEvent(receivedEvent);
+                                    System.out.println(">>>>>>>>>>>>" + req.headers());
                                 }
                             });
                     req.response().end();
@@ -29,17 +34,24 @@ public class MainVerticle extends AbstractVerticle {
         });
     }
 
-    public void sendCloudEvent(CloudEvent cloudEvent){
+    public void sendCloudEvent(CloudEvent cloudEvent) throws URISyntaxException {
         final HttpClientRequest request = vertx.createHttpClient().post(80, "cloudevents-go.default.svc.cluster.local", "/");
+        final CloudEvent<AttributesImpl, String>  myCloudEvent = CloudEventBuilder.<String>builder()
 
+                .withId("1234-abcd")
+                .withType("java-event")
+                .withSource(URI.create("cloudevents-java.default.svc.cluster.local"))
+                .withData("{\"name\" : \"Salaboy From Java Cloud Event\" }")
+                .withContenttype("application/json")
+                .build();
 // add a client response handler
         request.handler(resp -> {
             // react on the server response
-            System.out.println("Event posted: " +cloudEvent);
+            System.out.println("Event posted: " +myCloudEvent);
         });
-
+        request.setHost("cloudevents-go.default.svc.cluster.local");
 // write the CloudEvent to the given HTTP Post request object
-        VertxCloudEvents.create().writeToHttpClientRequest(cloudEvent, request);
+        VertxCloudEvents.create().writeToHttpClientRequest(myCloudEvent, request);
         request.end();
     }
 }
