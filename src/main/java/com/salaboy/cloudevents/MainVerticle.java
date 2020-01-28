@@ -50,7 +50,7 @@ public class MainVerticle extends AbstractVerticle {
             System.out.println("Event posted: " +resp.statusCode() + "-> " + resp.statusMessage());
 
         });
-        request.headers().set("Host", "cloudevents-go.default.example.com");
+        request.headers().set("Host", "cloudevents-spring-boot.default.example.com");
 // write the CloudEvent to the given HTTP Post request object
         VertxCloudEvents.create().writeToHttpClientRequest(myCloudEvent, request);
         System.out.println("New >>>>>>>>>>>>" + request.headers());
